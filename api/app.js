@@ -5,6 +5,8 @@ var logger = require('morgan');
 
 const Place = require('./models/Place');
 
+const places = require('./routes/places');
+
 const db = require('./config/database');
 
 db.connect();
@@ -16,71 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//routes create places
-app.post('/places', (req, res)=> {
-  Place.create({
-    title: req.body.title,
-    description: req.body.description,
-    acceptsCreditCard: req.body.acceptsCreditCard,
-    openHour: req.body.openHour,
-    closeHour: req.body.closeHour
-  })
-    .then(doc => {
-      res.json(doc);
-    }).catch (err => {
-      console.log(err);
-      res.json(err);
-    })
-});
-
-//routes view all places
-app.get('/places', (req, res) => {
-  Place.find({})
-    .then(docs => {
-        res.json(docs);
-    }).catch(err => {
-      console.log(err);
-      res.json(err);
-    })
-})
-
-//routes view just one place
-app.get('/places/:id', (req, res)=> {
-  //Place.findOne()
-  Place.findById(req.params.id)
-    .then(doc => {
-      res.json(doc);
-    }).catch(err => {
-      console.log(err);
-      res.json(err);
-    });
-})
-
-//route for find and update for id
-app.put('/places/:id', (req,res)=>{
-
-  const placeParams = req.body;
-
-  Place.findByIdAndUpdate(req.params.id, placeParams, {new: true})
-    .then(doc=>{
-      res.json(doc);
-    }).catch(err=>{
-      console.log(err);
-      res.json(err);
-    });
-});
-
-
-//Method Delete
-app.delete('/places/:id', (req, res)=>{
-  Place.findByIdAndRemove(req.params.id)
-    .then(doc =>{
-      res.json(doc);
-    }).catch(err => {
-      res.json(err);
-      console.log(err);
-    })
-})
+app.use('/places', places)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
