@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.post('/places', (req, res)=> {
   Place.create({
     title: req.body.title,
@@ -31,6 +32,16 @@ app.post('/places', (req, res)=> {
       res.json(err);
     })
 });
+
+app.get('/places', (req, res) => {
+  Place.find({})
+    .then(docs => {
+        res.json(docs);
+    }).catch(err => {
+      console.log(err);
+      res.json(err);
+    })
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
