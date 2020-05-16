@@ -56,6 +56,21 @@ app.get('/places/:id', (req, res)=> {
     });
 })
 
+//route for find and update for id
+app.put('/places/:id', (req,res)=>{
+
+  const placeParams = req.body;
+
+  Place.findByIdAndUpdate(req.params.id, placeParams, {new: true})
+    .then(doc=>{
+      res.json(doc);
+    }).catch(err=>{
+      console.log(err);
+      res.json(err);
+    });
+});
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
