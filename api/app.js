@@ -71,6 +71,17 @@ app.put('/places/:id', (req,res)=>{
 });
 
 
+//Method Delete
+app.delete('/places/:id', (req, res)=>{
+  Place.findByIdAndRemove(req.params.id)
+    .then(doc =>{
+      res.json(doc);
+    }).catch(err => {
+      res.json(err);
+      console.log(err);
+    })
+})
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
