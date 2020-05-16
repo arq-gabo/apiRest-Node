@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+//routes create places
 app.post('/places', (req, res)=> {
   Place.create({
     title: req.body.title,
@@ -33,6 +33,7 @@ app.post('/places', (req, res)=> {
     })
 });
 
+//routes view all places
 app.get('/places', (req, res) => {
   Place.find({})
     .then(docs => {
@@ -41,6 +42,18 @@ app.get('/places', (req, res) => {
       console.log(err);
       res.json(err);
     })
+})
+
+//routes view just one place
+app.get('/places/:id', (req, res)=> {
+  //Place.findOne()
+  Place.findById(req.params.id)
+    .then(doc => {
+      res.json(doc);
+    }).catch(err => {
+      console.log(err);
+      res.json(err);
+    });
 })
 
 // catch 404 and forward to error handler
