@@ -1,5 +1,6 @@
 const Place = require('../models/Place');
 const upload = require('../config/upload');
+const uploader = require('../models/Uploader');
 
 function find(req, res, next){
   Place.findById(req.params.id)
@@ -24,7 +25,7 @@ function index(req, res){
 
 
 //Create a new place
-function create(req, res) {
+function create(req, res, next) {
     Place.create({
         title: req.body.title,
         description: req.body.description,
@@ -33,10 +34,10 @@ function create(req, res) {
         closeHour: req.body.closeHour
       })
         .then(doc => {
-          res.json(doc);
+          req.place = doc;
+          next();
         }).catch (err => {
-          console.log(err);
-          res.json(err);
+          next(err);
         });
 }
 
@@ -80,6 +81,27 @@ function multerMiddleware(){
   ])
 }
 
+function saveImage(req, res){
+  if(req.place){
+    if(req.files && req.files.avatar){
+      let path = req.files.avatar[0].path;
+      uploader(path).then(result => {
+        console.log(result);
+        res.json(req.place);
+      }).catch (err => {
+        console.log(err);
+        res.json(err);
+      })
+    }
+  } else {
+    res.status(422).json({
+      error: req.error || 'Could Not Save Place'
+    });
+  }
+}
+
+
+
 module.exports = {
     index,
     create,
@@ -87,5 +109,6 @@ module.exports = {
     update,
     destroy,
     find,
-    multerMiddleware
+    multerMiddleware,
+    saveImage
 }
