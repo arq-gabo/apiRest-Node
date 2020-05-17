@@ -1,5 +1,14 @@
 const Place = require('../models/Place');
 
+function find(req, res, next){
+  Place.findById(req.params.id)
+    .then (place => {
+      req.place = place;
+      next();
+    }).catch(err => {
+      next(err);
+    })
+}
 
 //Show all places
 function index(req, res){
@@ -33,34 +42,28 @@ function create(req, res) {
 
 //Show one place by id
 function show(req, res){
-    Place.findById(req.params.id)
-          .then(doc => {
-            res.json(doc);
-          }).catch(err => {
-            console.log(err);
-            res.json(err);
-          });
+  res.json(req.place);
 }
 
 
 //Update place
 function update(req, res){
-    const placeParams = req.body;
-      
-        Place.findByIdAndUpdate(req.params.id, placeParams, {new: true})
-          .then(doc=>{
-            res.json(doc);
-          }).catch(err=>{
-            console.log(err);
-            res.json(err);
-          });
+  const placeParams = req.body;
+
+  req.place = Object.assign(req.place, placeParams);
+     
+  req.place.save().then(doc=>{
+      res.json(doc);
+    }).catch(err=>{
+      console.log(err);
+      res.json(err);
+    });
 
 }
 
 //delete place
 function destroy(req, res){
-    Place.findByIdAndRemove(req.params.id)
-          .then(doc =>{
+    req.place.remove().then(doc =>{
             res.json(doc);
           }).catch(err => {
             res.json(err);
@@ -73,5 +76,6 @@ module.exports = {
     create,
     show,
     update,
-    destroy
+    destroy,
+    find
 }
