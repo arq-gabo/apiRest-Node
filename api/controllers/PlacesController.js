@@ -1,7 +1,8 @@
 const Place = require('../models/Place');
 const upload = require('../config/upload');
+const helpers = require('./helpers');
 
-
+const validParams = ['title', 'description', 'address', 'acceptsCreditCard', 'openHour', 'closeHour'];
 
 function find(req, res, next){
   Place.findOne({slug:req.params.id})
@@ -27,13 +28,8 @@ function index(req, res){
 
 //Create a new place
 function create(req, res, next) {
-    Place.create({
-        title: req.body.title,
-        description: req.body.description,
-        acceptsCreditCard: req.body.acceptsCreditCard,
-        openHour: req.body.openHour,
-        closeHour: req.body.closeHour
-      })
+    const params = helpers.paramsBuilder(validParams , req.body);
+    Place.create(params)
         .then(doc => {
           req.place = doc;
           next();
@@ -51,9 +47,9 @@ function show(req, res){
 
 //Update place
 function update(req, res){
-  const placeParams = req.body;
-
-  req.place = Object.assign(req.place, placeParams);
+  
+  const params = helpers.paramsBuilder(validParams , req.body);
+  req.place = Object.assign(req.place, params);
      
   req.place.save().then(doc=>{
       res.json(doc);
