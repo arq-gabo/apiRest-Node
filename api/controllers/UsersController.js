@@ -19,10 +19,12 @@ function create(req, res, next) {
 
 function myPlaces(req, res){
     User.findOne({'_id': req.user.id}).then(user=>{
+        console.log(user.places);
         user.places.then(places=>{
             res.json(places);
         })
         }).catch(err=>{
+            console.log(err);
             res.json(err);
     })
 }
