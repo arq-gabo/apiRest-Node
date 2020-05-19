@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
+const jwtMiddleware = require('express-jwt');
 
 const Place = require('./models/Place');
 
@@ -10,15 +11,20 @@ const users = require('./routes/users');
 const sessions = require('./routes/sessions');
 
 const db = require('./config/database');
+const secrets = require('./config/secrets');
 
 db.connect();
-
 var app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(
+  jwtMiddleware({secret: secrets.jwtSecret})
+    .unless({path: ['/sessions', '/users'], method: 'GET'})
+)
 
 app.use('/places', places);
 app.use('/users', users);
