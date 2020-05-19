@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const mongooseBcrypt = require('mongoose-bcrypt');
 
+const Place = require('./Place');
+
 let userSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -26,6 +28,10 @@ userSchema.post('save', function(user, next){
             next();
         }
     })
+});
+
+userSchema.virtual('places').get(function(){
+    return Place.find({'_user': this._id})
 })
 
 userSchema.plugin(mongooseBcrypt);

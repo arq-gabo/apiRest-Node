@@ -1,0 +1,19 @@
+1- npm install express-generator -g //genera el proyecto
+
+2- express api //crea la aplicacion
+
+3- npm run start
+
+4- npm install mongoose --yes
+
+5- npm install mongoose-paginate
+
+6- npm install cloudinary
+
+7- npm install multer
+
+8- npm install mongoose-bcrypt
+
+9- npm install jsonwebtoken
+
+10.-npm install express-jwt
