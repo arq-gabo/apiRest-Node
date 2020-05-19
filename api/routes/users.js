@@ -8,6 +8,6 @@ const sessionController = require('../controllers/SessionsController');
 router.route('/')
   .post(userController.create,
         sessionController.generateToken,
-        sessionController.sendToken );
-
+        sessionController.sendToken);
+  
 module.exports = router;
