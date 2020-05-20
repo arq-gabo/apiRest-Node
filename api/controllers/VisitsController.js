@@ -14,14 +14,23 @@ function find(req, res, next){
 }
 
 function index(req, res){
-    User.findOne({'_id': req.user.id}).then(user=>{
-        user.favorites.then(places=>{
-            res.json(places);
+    let promise = null;
+
+    if(req.place){
+        promise = req.place.visits;
+    } else if (req.user){
+        promise = Visit.forUser(req.user.id, req.query.page || 1)
+    }
+
+    if(promise){
+        promise.then(visits=>{
+            res.json(visits);
+        }).catch(error=>{
+            res.status(500).json({error})
         })
-        }).catch(err=>{
-            console.log(err);
-            res.json(err);
-    })
+    }else{
+        res.status(404).json({})
+    }
 }
 
 

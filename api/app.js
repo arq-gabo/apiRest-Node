@@ -11,6 +11,7 @@ const users = require('./routes/users');
 const sessions = require('./routes/sessions');
 const favorites = require('./routes/favorites');
 const visits = require('./routes/visits');
+const visitPlaces = require('./routes/visitsPlaces');
 
 const db = require('./config/database');
 const secrets = require('./config/secrets');
@@ -29,6 +30,7 @@ app.use(
 )
 
 app.use('/places', places);
+app.use('/places', visitPlaces);
 app.use('/users', users);
 app.use('/sessions', sessions);
 app.use('/favorites', favorites);
