@@ -18,7 +18,7 @@ function index(req, res){
 
     if(req.place){
         promise = req.place.visits;
-    } else if (req.user){
+    } else if(req.user){
         promise = Visit.forUser(req.user.id, req.query.page || 1)
     }
 
@@ -28,7 +28,7 @@ function index(req, res){
         }).catch(error=>{
             res.status(500).json({error})
         })
-    }else{
+    } else{
         res.status(404).json({})
     }
 }
