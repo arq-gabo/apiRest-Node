@@ -13,25 +13,29 @@ function find(req, res, next){
     }).catch(next);
 }
 
-function index(req, res){
+
+function index(req,res){
+    //req.user
     let promise = null;
-
+  
     if(req.place){
-        promise = req.place.visits;
-    } else if(req.user){
-        promise = Visit.forUser(req.user.id, req.query.page || 1)
+      promise = req.place.visits;
+    }else if(req.user){
+      promise = Visit.forUser(req.user.id, req.query.page || 1)
     }
-
+  
     if(promise){
-        promise.then(visits=>{
-            res.json(visits);
-        }).catch(error=>{
-            res.status(500).json({error})
-        })
-    } else{
-        res.status(404).json({})
+      promise.then(visits=>{
+        res.json(visits);
+      }).catch(error=>{
+        //res.status(500).json({error})
+        res.json(error);
+      })
+    }else{
+      res.status(404).json({});
     }
-}
+  }
+  
 
 
 function create(req, res){

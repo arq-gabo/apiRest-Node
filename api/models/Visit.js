@@ -21,6 +21,12 @@ let visitSchema = new mongoose.Schema({
     observation: String
 })
 
+
+visitSchema.statics.forUser = function(userId, page){
+    return Visit.paginate({'_user': userId}, {page: page, limit: 5, sort: {'_id': -1}});
+}
+  
+
 visitSchema.plugin(mongoosePaginate);
 
 const Visit = mongoose.model('Visit', visitSchema);

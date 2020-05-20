@@ -8,8 +8,8 @@ const jwtMiddleware = require('express-jwt');
 const secrets = require('../config/secrets');
 
 router.route('/')
-    .get(visitsController.index)
-    .post(visitsController.create)
+  .get(jwtMiddleware({secret: secrets.jwtSecret}),visitsController.index)
+  .post(visitsController.create);
 
 router.route('/:visit_id')
     .delete(visitsController.find, authenticateOwner, visitsController.destroy)
