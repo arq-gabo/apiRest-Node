@@ -14,6 +14,9 @@ const visits = require('./routes/visits');
 const visitPlaces = require('./routes/visitsPlaces');
 const applications = require('./routes/applications');
 
+const findAppBySecret = require('./middlewares/findAppBySecret');
+const authApp = require('./middlewares/authApp');
+
 const db = require('./config/database');
 const secrets = require('./config/secrets');
 
@@ -24,6 +27,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(findAppBySecret);
+app.use(authApp);
 
 app.use(
   jwtMiddleware({secret: secrets.jwtSecret})
