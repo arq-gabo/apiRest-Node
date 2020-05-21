@@ -11,7 +11,7 @@ router.route('/')
   .get(jwtMiddleware({secret: secrets.jwtSecret}),applicationsController.index)
   .post(applicationsController.create);
 
-router.route('/:visit_id')
-    .delete(applicationsController.find, authenticateOwner, applicationsController.destroy)
+router.route('/:id')
+    .delete(applicationsController.find, applicationsController.destroy)
 
 module.exports = router;
