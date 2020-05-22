@@ -17,3 +17,9 @@
 9- npm install jsonwebtoken
 
 10.-npm install express-jwt
+
+11.-npm install randomstring
+
+12.-npm install -g node-static
+
+13.-npm install express-unless
