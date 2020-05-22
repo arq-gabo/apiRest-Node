@@ -16,6 +16,7 @@ const applications = require('./routes/applications');
 
 const findAppBySecret = require('./middlewares/findAppBySecret');
 const authApp = require('./middlewares/authApp');
+const findByAppApplicationId = require('./middlewares/findByAppApplicationId');
 
 const db = require('./config/database');
 const secrets = require('./config/secrets');
@@ -29,11 +30,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(findAppBySecret);
+app.use(findByAppApplicationId);
 app.use(authApp);
+//app.use(authApp.unless({method: 'OPTIONS'}));
 
 app.use(
   jwtMiddleware({secret: secrets.jwtSecret})
     .unless({path: ['/sessions', '/users'], method: 'GET'})
+    //.unless({path: ['/sessions', '/users'], method: ['GET', 'OPTIONS']})
 )
 
 app.use('/places', places);
