@@ -5,24 +5,23 @@
     <title></title>
   </head>
   <body>
-    <script type="text/javascript">/*
-      let formData = new FormData();
-
-      formData.append('title', 'Lugar creado con AJAX');
-      fetch('http://localhost:3000/places',{
-        method: 'POST',
-        body:formData,
-        headers:{
-          'application': 'iMy05bSSAYYZLHU10Va2',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5YmU5MDRlNzhiNjIyMDIwZDA0YmQ2MCIsImlhdCI6MTUwNjI2MzUxOX0.oyTZ7K0MqJSNZ6Tut_x3zi1cYm-tvvsJAUOyN0aUHJ4'
-        }
-      })
-        .then(response=>{
-          response.json().then(console.log);
-        },console.log);*/
-        fetch('http://localhost:3000/places')
-            .then(console.log, console.log)
+    <script type="text/javascript">
         
+          let formData = new FormData();
+
+          formData.append('title', 'Place create with AJAX');
+
+          fetch('http://localhost:3000/places', {
+          method: 'POST',
+          body:formData,
+          headers: {
+            'application': 'OWGdWuPI5UVVEVWfIumB',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYzM1MzYwZmI1N2UyM2Q2MDM1MThmMCIsImlhdCI6MTU5MDA0MjE4Mn0.bgZnOizKtvEbrnVPF_wcmCHu6iCBRKGrOFqYldQYVns'
+          }
+        })
+          .then(response=>{
+            response.json().then(console.log)
+          }, console.log);
     </script>
   </body>
 </html>

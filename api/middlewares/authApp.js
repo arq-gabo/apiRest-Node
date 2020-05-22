@@ -1,4 +1,4 @@
-/*const Application = require('../models/Application');
+const Application = require('../models/Application');
 
 module.exports = function(options){
     let AuthApp = function(req, res, next){
@@ -14,8 +14,9 @@ module.exports = function(options){
     AuthApp.unless = require('express-unless');
 
     return AuthApp;
-}*/
+}
 
+/*
 const Application = require('../models/Application');
 
 
@@ -27,3 +28,4 @@ module.exports = function(req, res, next){
         next();
     }).catch(next);
 }
+*/
